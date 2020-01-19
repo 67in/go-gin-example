@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"github.com/67in/go-gin-example/models"
+	"github.com/sirupsen/logrus"
 	"log"
 	"net/http"
 )
@@ -20,8 +21,12 @@ func GetAuth(c *gin.Context)  {
 	password := c.Query("password")
 
 	valid := validation.Validation{}
-	a := auth{Username: "username", Password: "password"}
+	a := auth{Username: username, Password: password}
 	ok, _ := valid.Valid(&a)
+    logrus.WithFields(logrus.Fields{
+    	"a": a,
+    	"ok":ok,
+	})
 
 	data := make(map[string]interface{})
 	code := e.INVALID_PARAMS
